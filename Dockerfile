@@ -1,19 +1,22 @@
 FROM python:3.13-slim
 
-# Определяем рабочую директорию
+# Set working directory
 WORKDIR /app
 
-# Устанавливаем uv
+# Install uv
 RUN pip install --no-cache-dir uv
 
-# Настраиваем режим работы uv
+# Configure uv link mode
 ENV UV_LINK_MODE=copy
 
-# Копируем зависимости
+# Copy dependency manifests
 COPY uv.lock pyproject.toml /app/
 
-# Устанавилваем зависимости
-RUN uv sync
+# Install dependencies
+RUN uv sync --no-dev
 
-# Копируем приложение
-COPY app /app/app
+# Copy Alembic configuration
+COPY alembic.ini /app/alembic.ini
+
+# Copy application
+COPY bot /app/bot

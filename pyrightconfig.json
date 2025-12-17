@@ -1,17 +1,17 @@
 {
-  "include": ["app"],
+  "include": ["bot"],
   "exclude": [
     "**/node_modules",
     "**/__pycache__",
     "**/.venv",
     "**/.git",
     "**/.idea",
-    "**/migrations"
+    "**/migrations",
   ],
   "venvPath": ".",
   "venv": ".venv",
   "reportMissingImports": true,
   "reportMissingTypeStubs": false,
   "pythonVersion": "3.13",
-  "typeCheckingMode": "basic"
+  "typeCheckingMode": "basic",
 }

@@ -1,0 +1,18 @@
+[project]
+name = "aiogram-project-template"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiogram>=3.23.0",
+    "alembic>=1.17.2",
+    "asyncpg>=0.31.0",
+    "loguru>=0.7.3",
+    "sqlalchemy>=2.0.45",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.5.1",
+]

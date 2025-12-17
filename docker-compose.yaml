@@ -1,16 +1,41 @@
 services:
-  app:
+  postgres:
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      timeout: 3s
+      retries: 5
+      # On runtime
+      interval: 600s
+      # On start
+      start_period: 20s
+      start_interval: 2s
+
+  bot:
     build:
       context: .
     env_file:
       - .env
     volumes:
-      - ./app:/app/app
+      - ./bot:/app/bot
       - ./logs:/app/logs
-    command: sh -c "uv run python3 -m app"
-    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: "uv run -m bot"
     logging:
       driver: "json-file"
       options:
-        max-size: "5m"
+        max-size: "50m"
         max-file: "3"
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
